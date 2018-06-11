@@ -61,3 +61,31 @@ print("============\n")
 print("compruebaParejas(\(array2a), cuadrado): \(compruebaParejas(array2a, funcion: cuadrado))")
 
 // Ejercicio 3
+
+// Ejercicio 4
+
+
+
+let array = [(2,4), (4,14), (4,16), (5,25), (10,100)]
+
+
+func coinciden(parejas: [(Int, Int)], funcion f: (Int) -> Int) -> [Bool] {
+    if let (x,y) = parejas.first {
+        let resto = Array(parejas.dropFirst())
+        return [f(x) == y] + coinciden(parejas: resto, funcion: f)
+    }
+    else
+    {
+        return []
+    }
+}
+
+// DEMOSTRACIÓN
+
+print("\nEjercicio 4)")
+print("============\n")
+let array4: [(Int,Int)] = [(2,4), (4,14), (4,16), (5,25), (10,100)]
+print("coinciden(\(array4), cuadrado):  \(coinciden(parejas: array4, funcion: cuadrado))\n")
+// Imprime: Resultado coinciden:  [true, false, true, true, true]
+
+
