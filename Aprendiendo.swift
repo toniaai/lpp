@@ -48,7 +48,7 @@ let array5 = Array(0..<10)
 print(array5)
 // -> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-// A continuacion dos prints iguales
+// Operaciones con rangos.. 
 print(array4[4...8])
 
 var array6 = [Int]()
@@ -62,3 +62,154 @@ print(array6[1..<array6.count-1])
 // -> array6 tiene de count: 5
 // -> [5, 6, 7, 8]
 // -> [5, 6, 7]
+
+var cadenaOpcional: String? = "Hola"
+print(cadenaOpcional == nil)
+
+var nombreOpcional: String? = nil
+var saludo = "Hola!"
+print(saludo)
+
+if let nombre = nombreOpcional {
+    saludo = "Hola, \(nombre)"
+} else {
+    saludo = "Hola, desconocido"
+}
+print(saludo)
+
+let nombrePila: String? = nil
+let nombreCompleto: String = "John Appleseed"
+let saludoInformal = "¿Qué tal, \(nombrePila ?? nombreCompleto)?"
+
+print(saludoInformal)
+
+let verdura = "pimiento rojo"
+switch verdura {
+    case "zanahoria":
+        print("Buena para la vista.")
+    case "lechuga", "tomates":
+        print("Podrías hacer una buena ensalada.")
+    default:
+        print("Siempre puedes hacer una buena sopa.")
+}
+
+var trabajos = [
+    "Malcolm": "Capitán",
+    "Kaylee": "Mecánico",
+]
+print(trabajos)
+
+trabajos["Jayne"] = "Relaciones públicas"
+print(trabajos)
+
+let numerosInteresantes = [
+    "Primos": [2, 3, 5, 7, 11, 13],
+    "Fibonacci": [1, 1, 2, 3, 5, 8],
+    "Cuadrados": [1, 4, 9, 16, 25],
+]
+
+print(numerosInteresantes)
+
+var mayor = 0
+for (clase, numeros) in numerosInteresantes {
+    for numero in numeros {
+        if numero > mayor {
+            mayor = numero
+        }
+    }
+}
+print(mayor)
+
+
+func calculaEstadisticas(puntuaciones: [Int]) -> (min: Int, max: Int, sum: Int) {
+    var min = puntuaciones[0]
+    var max = puntuaciones[0]
+    var sum = 0
+    
+    for puntuacion in puntuaciones {
+        if puntuacion > max {
+            max = puntuacion
+        } else if puntuacion < min {
+            min = puntuacion
+        }
+        sum += puntuacion
+    }
+    
+    return (min, max, sum)
+}
+
+let estadisticas = calculaEstadisticas(puntuaciones: [5, 3, 100, 3, 9])
+print(estadisticas)
+print(estadisticas.sum)
+print(estadisticas.2)
+/*
+(min: 3, max: 100, sum: 120)
+120
+120
+*/
+
+func media(numeros: Int...) -> Int {
+    var suma = 0
+    var i = 0
+    for num in numeros {
+        i += 1
+        suma += num
+    }
+
+    return suma / i
+}
+print(media(numeros: 42, 597, 12))
+// -> 217
+
+func construyeIncrementador() -> ((Int) -> Int) {
+    func sumaUno(numero: Int) -> Int {
+        return 1 + numero
+    }
+    return sumaUno
+}
+var incrementa = construyeIncrementador()
+print(incrementa(7))
+// -> 8
+
+func cumpleCondicion(lista: [Int], condicion: (Int) -> Bool) -> Bool {
+    for item in lista {
+        if condicion(item) {
+            return true
+        }
+    }
+    return false
+}
+func menorQueDiez(numero: Int) -> Bool {
+    return numero < 10
+}
+var numeros = [20, 19, 7, 12]
+print(cumpleCondicion(lista: numeros, condicion: menorQueDiez))
+// -> true
+print(
+numeros.map({
+    (numero: Int) -> Int in
+    let resultado = 3 * numero
+    return resultado
+}))
+
+print(
+    numeros.map({
+        numero in 3 * numero
+    })
+)
+
+print(
+    numeros.map({
+        (numero: Int) -> Int in 
+        if numero % 2 == 0 {
+            return numero
+        } else {
+            return 0
+        }
+    })
+)
+/*
+[60, 57, 21, 36]
+[60, 57, 21, 36]
+[20, 0, 0, 12]
+*/

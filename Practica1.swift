@@ -36,3 +36,28 @@ print("\nHistograma")
 print("----------")
 imprimir(frecuencias: frec, maxAsteriscos: 10)
 
+// Ejercicio 2
+func compruebaParejas(_ valores: [Int], funcion f: (Int) -> Int) -> [(Int, Int)] {
+    if let primero = valores.first, let segundo = valores.dropFirst().first {
+        let resto = Array(valores.dropFirst())
+        if f(primero) == segundo {
+            return [(primero, segundo)] + compruebaParejas(resto, funcion: f)
+        } else {
+            return compruebaParejas(resto, funcion: f)
+        }
+    } else {
+        return []
+    }
+}
+
+// DEMOSTRACIÓN
+
+func cuadrado(x: Int) -> Int {
+   return x * x
+}
+let array2a = [2, 4, 16, 5, 10, 100, 105]
+print("\nEjercicio 2")
+print("============\n")
+print("compruebaParejas(\(array2a), cuadrado): \(compruebaParejas(array2a, funcion: cuadrado))")
+
+// Ejercicio 3
