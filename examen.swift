@@ -126,3 +126,5 @@ func foo(_ b: Int) -> ((Int) -> Int, (Int) -> Int) {
 // let g = foo(x+2)
 // print(g.0(x)) => ___________
 
+
+
