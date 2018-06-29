@@ -1,3 +1,5 @@
+// docker run --privileged -it --rm -v "${PWD}:/home" swift:4.0.3 /bin/bash
+
 // var es para una variable, let para una constante
 var variable = 10
 variable = 11
