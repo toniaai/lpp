@@ -1,102 +1,128 @@
-//EJERCICIO 1
-print("\nEjercicio 1")
-enum A {     
-    case a(Bool, String, Int)     
-    case b(Int) 
+// ejercicio 1
+// suponiendo el siguiente enumerado, define dos variablesque contengan dos valores del enumerado
+// uno del caso a y uno del caso b
+
+enum A {
+    case a(Bool, String, Int)
+    case b(Int)
 }
 
-let casoa = A.a(true, "hola", 1)
-let casob = A.b(10)
+let varA = A.a(true, "Hola", 2)
+let varB = A.b(10)
 
-// print(casoa) => a(true, "hola", 1)
-// print(casob) => b(10)
 
-//EJERCICIO 3
-print("\nEjercicio 3")
-indirect enum Arbol<T> {     
-    case nodo(T, [Arbol<T>])     
-    case hoja(T) 
-    func esHoja() -> Bool {
-        switch self {
-        case .hoja:
-            return true
-            
-        default: return false
-            
-        }
-    }
-} 
-//EJERCICIO 4
-print("\nEjercicio 4")
-let hoja1 = Arbol.hoja("que")
-let hoja2 = Arbol.hoja("tal")
-let arbolString = Arbol.nodo("hola", [hoja1, hoja2])
+// ejercicio 2
+// supongamos el siguiente codigo de scheme ¿que aparece en pantalla?
+
+let x = [(10, -2), (3, 40), (-5, 26), (22, -3), (10, 8)]
+// print (x.map{$0.0 + $0.1}.reduce(a[0]){             
+//            if $0 < $1 {return $0} else {return $1}}) 
+
+//un error xd
+
+// ejercicio 3
+// dada la siguiente defición del tipo enumerado que representa un árbol genérico
+indirect enum Arbol<T> {
+    case nodo(T, [Arbol<T>])
+    case hoja(T)
+}
+let hoja1 = Arbol<String>.hoja("que")
+let hoja2 = Arbol<String>.hoja("tal")
+let arbolString = Arbol<String>.nodo("hola", [hoja1, hoja2])
 print(arbolString)
 
-print(hoja1.esHoja())
 
-//EJERCICIO 5
-print("\nEjercicio 5")
-let posiciones = [(2,1), (3,4), (2,4), (8,4), (4,3)]
-print(posiciones.filter{$0.0 % $0.1 == 0}.map{($0.1, $0.0)}.reduce(0){$0 + $1.0})
-// Prints: 5
-print(posiciones.filter{$0.0 % $0.1 == 0}) // => [(2, 1), (8, 4)]
-print(posiciones.map{($0.1, $0.0)}) // => [(1, 2), (4, 8)]
-print(posiciones.reduce(0){$0 + $1.0}) // => 5 (1 + 4)
 
-//EJERCICIO 6
-print("\nEjercicio 6: ")
+
+// ejercicio 4
+// dada la definicion del tipo generico anterior define la funcion generica esHoja(arbol: )
+// que recibe un arbol generico y devuelve true si es un árbol hoja y false en el caso contrario
+
+func esHoja<T>(arbol: Arbol<T>) -> Bool {
+    switch arbol {
+        case .hoja: return true
+        default: return false
+    }
+}
+
+print(esHoja(arbol: hoja1))         // true
+print(esHoja(arbol: arbolString))   // false
+
+// ejercicio 5
+// indica que muestra por pantalla la funcion print
+let posiciones = [(2,1), (3,4), (2,4), (8,4), (4,3)] 
+
+print(posiciones.filter{$0.0 % $0.1 == 0}.map{($0.1, $0.0)}.reduce(0){$0 + $1.0}) 
+
+print(posiciones.filter{$0.0 % $0.1 == 0}) // [(2, 1), (8, 4)]
+// ahora el map aplicaria .map({$0.1, $0.0}) => [(1, 2), (4, 8)]
+// y ahora el reduce que me sumaria el primer elemento d cada pareja d la lista al caso base
+// .reduce(0){$0 + $1.0} => 5
+
+print(posiciones.filter{$0.0 % $0.1 == 0}.map{($0.1, $0.0)}) // => [(1, 2), (4, 8)]  como habiamos dicho
+
+
+// ejercicio 6
+// supongamos la funcion foo que recibe un etnero y devuelve un entero opcional
+// completa la deficion de la funcino indicando el tipo devuelvo y escribe el codigo en swift
+// que llame a la funcion foo con el paramtro 10 y que imprime el doble del resultado
+// devuelto. si el valor devuleto es nil se debe imprimir sin resultado
 
 func foo(x: Int) -> Int? {
-    
-    return x + x
+    return x
 }
 
-var posibleNumero = foo(x: 10)
-print(posibleNumero ?? "caca")
+if let IntTest: Int = foo(x: 10) {
+    print(IntTest * 2)
+} else {
+    print("Sin resultado")
+}
 
-//EJERCICIO 7
-print("\nEejercicio 7: ")
+// ejercicio 7 
+//dado el siguiente codigo en swift:
+
 enum Dispositivo {
-case iPad, iPhone, AppleTV, AppleWatch
-    func lanzamiento() -> String {
-        switch self {
-            case .AppleTV: return "\(self) salió en 2006"  
-            case .iPhone: return "\(self) salió en 2007"  
-            case .iPad: return "\(self) salió en 2010"  
-            case .AppleWatch: return "\(self) salió en 2014"        
-        }     
-    } 
+        case iPad, iPhone, AppleTV, AppleWatch
+            
+        func lanzamiento() -> String {
+            switch self {
+                case .AppleTV: return "\(self) salió en 2006"  
+                case .iPhone: return "\(self) salió en 2007"  
+                case .iPad: return "\(self) salió en 2010"  
+                case .AppleWatch: return "\(self) salió en 2014"
+            }     
+        } 
 }
+
+// queremos imprimir por pantalla "iPhone salió en 2007" utilizando el codigo anterior.
+// en el caso que creas que es poisble completar la sentencia print, escribe cual seria.
+// en el caso en que creas que se genera un error, escribelo.
 
 print(Dispositivo.iPhone.lanzamiento())
 
-//EJERCICIO 8
-print("\nEjercicio 8")
+// ejercicio 8
+// dado el siguiente codigo en swift:
+
 var x = 1 
  
-func foo(_ b: Int) -> ((Int) -> Int, (Int) -> Int) {  
-    print("1: \(b)")   
+func foo(_ b: Int) -> ((Int) -> Int, (Int) -> Int) {     
     var x = 1 + b 
-    print("2: \(x)")  
-    
-    func bar1(_ a: Int) -> Int{
-        x = x + a 
-        print("bar1: \(x)")        
+ 
+    func bar1(_ a: Int) -> Int{         
+        x = x + a         
         return x     
     } 
-    print("3: \(x)")  
-    func bar2(_ a: Int) -> Int {
-        x = x + a + 1    
-        print("bar2: \(x)")        
+ 
+    func bar2(_ a: Int) -> Int {         
+        x = x + a + 1         
         return x     
-    }   
-    print("4: \(x)")    
-    return (bar1, bar2) 
+    }     return (bar1, bar2) 
 }
-print("f = foo(x) -> ")
-let f = foo(x) 
-print("\nprint(f.0(x)) -> \(f.0(x))")
-print("\nprint(f.1(x)) -> \(f.1(x))")
-let g = foo(x+2)
-print("\nprint(g.0(x)) -> \(g.0(x))")
+
+// rellena los juevos con lo que se imprime por pantalla:
+// let f = foo(x)
+// f.0(x)
+// print(f.1(x)) => ___________
+// let g = foo(x+2)
+// print(g.0(x)) => ___________
+
