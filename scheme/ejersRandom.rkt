@@ -56,3 +56,42 @@
                        (dato-arbol arbol)) (map (lambda (x)
                                                   (arbol-sust-fos x elem-old elem-new)) (hijos-arbol arbol))))
 
+(define (max-arbol arbol)
+  (max (dato-arbol arbol)
+       (max-bosque (hijos-arbol arbol))))
+
+(define (max-bosque bosque)
+  (if (null? bosque)
+      0
+      (max (max-arbol (car bosque))
+
+           
+(define (max-arbol-fos arbol)
+  (fold-right (lambda (x y)
+                (if (> x y)
+                    x
+                    y)) (dato-arbol arbol) (map (lambda (x)
+                                                  (max-arbol-fos x)) (hijos-arbol arbol))))
+
+(define arbolMax '(10 (20 (4) (3)) (12 (1) (2)) (15 (21) (2))))
+
+
+(define (lista-nivel-tree nivel arbol)
+  (if (= nivel 0)
+      (list (dato-arbol arbol))
+      (lista-nivel-bosque (- nivel 1) (hijos-arbol arbol))))
+
+(define (lista-nivel-bosque nivel bosque)
+  (if (null? bosque)
+      '()
+      (append (lista-nivel-tree nivel (car bosque))
+              (lista-nivel-bosque nivel (cdr bosque)))))
+
+(define (lista-nivel-tree-fos nivel arbol)
+  (fold-right append '() (map (lambda (x)
+                                (if (<= nivel 0)
+                                    x
+                                    (lista-nivel-tree-fos (- nivel 1) x))) (hijos-arbol arbol))))
+
+
+(define arbolNivel '(1 (2 (3 (4) (2)) (5)) (6 (7))))
