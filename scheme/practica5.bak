@@ -1,0 +1,14 @@
+#lang r6rs
+(import (rnrs)
+        (schemeunit))
+(define (dato-arbol arbol)
+  (car arbol))
+
+(define (hijos-arbol arbol)
+  (cdr arbol))
+
+(define (hoja? dato)
+   (not (list? dato)))
+
+(define (construye-arbol dato lista-arboles)
+  (cons dato lista-arboles))
