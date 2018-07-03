@@ -210,24 +210,334 @@ print(aplica([9, 8, 3], [paraPares, paraImpares]))
 // sea par para el indice 0 de funciones tengo que tener la funcionar para pares y para impares es igual pero 
 // con el indice 1 puesto que 1 es el resultado de cualquier impar %2. 
 
-// ejercicio 11
-// rellena los huecos de la funcion componer para que el ejemplo imprima:
-// hgf(x)=2x^2+5 para x=5.0 es 55.0 
+// ejercicio 12
 
-
-func componer(funciones: [(Double) -> Double]) -> Double {
-
-    func compuesta(_ x: Double) -> Double {
-        return funciones.reduce(x){$1($0)}
+class Pasos {
+    var contador = 0 {
+        willSet {
+            Pasos.totalInstancias += newValue - contador
+        }
     }
- 
+    static var totalInstancias = 0
+
+    func inc(pasos: Int) {
+        if (pasos > 0) {
+            contador += pasos
+        }
+    }
+
+    var totalPasos: Int {
+        return Pasos.totalInstancias
+    }
 }
 
-//Ejemplo: 
-func f1(_ x: Double) -> Double {return x*x} 
-func g1(_ x: Double) -> Double {return 2.0*x} 
-func h1(_ x: Double) -> Double {return x+5.0} 
-let hgf = componer(funciones: [f1,g1,h1]) 
-print("hgf(x)=2x^2+5 para x=5.0 es \(hgf(5.0))")
-// Imprime: 
-// hgf(x)=2x^2+5 para x=5.0 es 55.0 
+var p1 = Pasos()
+var p2 = Pasos()
+p1.inc(pasos: 10)
+p1.inc(pasos: 5)
+p2.inc(pasos: 5)
+print(p1.totalPasos)
+
+// el objetivo de este ejercicio es tener la variable static q es la variable estática 
+// universal para este tipo y la llamaremos dentro del tipo como Pasos.totalInstancias
+// la cosa es que como nos fuerzan a utilizar el willSet tenemos que almacenar solo los pasos
+// almacenados y no el contador, por que para los contadores, o mejor dicho, los pasos anteriores
+// ya los hemos almacenado, y estaríamos repitiendo, como solo queremos los nuevos pasos restamos al nuevo
+// valor el valor antiguo (contador) obteniendo unicamente los nuevos pasos añadidos. Ademas de esto
+// tenemos que declarar el tipo estatico. 
+
+// ejercicio 13
+
+// completar el codigo de una estructura MiStruct que adopta un protocolo con tal de que este compile correctamente. 
+
+protocol pA {
+    var a: String {get}
+    func foo(a: String) -> String?
+}
+
+protocol pB {
+    mutating func bar()
+}
+
+// struct MiStruct: A, B {
+    // completa el codigo
+//}
+
+struct MiStruct: pA,pB {
+    var a: String {
+        get {
+            return self.a
+        }
+        set(nuevoA) {
+            a = nuevoA
+        }
+    }
+
+    func foo(a: String) -> String? {
+        return a 
+    }
+
+    mutating func bar() {
+        a = "hola"
+    }
+}
+
+// la cosa de este ejer es primero, tener que poner las funciones y tipos que nos imponen los protocolos
+// por otro lado nos imponen tener un get así como un mutating, en este caso, he querido mutar la propia
+// variable que tenía un unico set y ahí tenía un problema, al tener SOLO get es de get only por lo que no
+// la puedo mutar y tengo que añadir un set. Esto no tiene nigún problema con el protoclo puesto que el protocolo
+// solo requiere el get, puedo añadir más. 
+
+// ejercicio 14
+
+// tenemos una funcion vector2 qur tiene un funcion que devuelve un vector con las propiedades del vector 
+// actual multiplicadas por un escalar. Aqui supongo que la clave del problema es que tengo que devolver un nuevo
+// vector y no el anterior puesto que al ser un struct no puedo cambiar el valor de las variables. (en este caso)
+
+struct Vector2D {
+    var x = 1.0, y = 1.0
+    func producto(escalar k: Double) -> Vector2D {
+        return Vector2D(x: self.x * k, y: self.y * k)
+    }
+}
+
+
+
+let vect1 = Vector2D(x: 1.0, y: 2.0)
+print(vect1)
+var vect2 = vect1.producto(escalar: 5)
+print(vect2)
+print(vect1)
+
+// en efecto la intenction del ejercicio era lo descrito.
+
+// ejercicio 15
+// nos dan una funcion copmlete y debemos indicar que se devuelve por pantalla
+
+// esta funcion le pasamos una palabra y hace la cuenta de sus caracteres, 
+// si la cuenta de caracteres es igual o mayor a dos guardaremos su indice
+// a partir de su indice guardamos end, que es el indice inicial al que sumamos
+// el offSet de la longitud total entre dos, es decir, al indice inicial nos movemos
+// "media palabra" de indices
+func foo(palabra pal: String) -> String {
+    let lon = pal.count
+    if lon < 2 {
+        return pal     
+    }    
+    else {
+        let start = pal.startIndex
+        let end =  pal.index(start, offsetBy: lon/2)         
+        return String(pal[end])     
+    } 
+} 
+ 
+
+// esta clase contiene un tipo que es un array de palabras (string) y las va guardando en este
+// segun llamemos a la funcion. además de esto contiene una variable x array de string que contiene un 
+// getter, x se verá definida por este getter al ser inicializada (llamada en nuestro codigo mas abajo)
+// y aplicará la funcion map para cada palabra de nuestro array, devolviendo el array resultante de
+// aplicar la funcion foo a nuestro array.
+class MisPalabras {
+    var guardadas: [String] = []     
+    func guarda(palabra: String) {         
+        guardadas.append(palabra)     
+    }       
+    var x : [String] {         
+        get {             
+            return guardadas.map(foo)         
+        }     
+    } 
+} 
+ 
+ 
+let palabras = MisPalabras()
+palabras.guarda(palabra: "sal") 
+palabras.guarda(palabra: "limon") 
+print(palabras.x)
+
+// con la descripción anterior sabemos que vamos a devolver el caracter en la mitad de cada palabra (map de la funcion foo
+// para cada palabra guardada), por lo tanto esta función devolverá algo como: ["a", "m"]
+
+// ejercicio 16
+
+// completar el codigo de la siguiente expresion utilizando propiedades calculadas, para que el ejemplo
+// funcione correctamente.
+
+extension Int {
+    var sum: Int { return self + 10}
+    var res: Int { return self - 10}
+    var mul: Int { return self * 10}
+    var div: Int { return self / 10}
+}
+
+let a = 3.sum 
+print("a: \(a)")  // a: 13 
+
+let b = 100.res 
+print("b: \(b)")  // b: 90 
+
+let c = 30.mul 
+print("c: \(c)")  // c: 300 
+
+let d = 24.div 
+print("d: \(d)")  // d: 12 
+
+let op = 30.sum + 10.res 
+print("op: \(op)") // op: 40 
+
+// la cosa de este ejercicio es saber bien como se añaden las extensiones:
+// para empezar:
+// no podemos poner un switch tal cual haríamos en un enum por que no sigue las misma sintaxis,
+// estamos extendiendo una clase de la libreria estandar y sabemos que no tiene estos añadidos
+// así que no podríamos realizarlo del modo switch self { case .sum } 
+
+// por otro lado tampoco podemos añadir la extensión como funciones tal cual por que a pesar de que
+// para un unico numero o variable podría funcionar a la hora de utilizar varios parametros o hacer el 
+// ultimo ejemplo sobrecargariamos el metodo y daría error
+
+// la forma correcta de extender la clase es añadiendolo como tipos variables con un get simple que sea
+// el return junto al self y la operación que deseemos. 
+
+// ejercicio 17
+
+// completa la siguiente implementación para que las pruebas funcionen correctamente:
+
+// nos dan una enumeracion llamada CodigoBarras y que se ajusta al protocolo Equatable de la libreria de clases estandar de swift
+// este protocolo nos permite asegurarnos de que nuestro tipo cumpla y defina las operaciones de igualdad. 
+
+enum CodigoBarras : Equatable{     
+    case upc(Int, Int)     
+    case qrCode(Int) 
+ 
+    // la declaración de la funcion no estaba
+    static func == (c1: CodigoBarras, c2: CodigoBarras) -> Bool {         
+        switch (c1, c2) {            
+            case let (.upc(codeA1, codeB1), .upc(codeA2, codeB2)): 
+                // lo que devuelve return no estaba
+                return codeA1 == codeA2 && codeB1 == codeB2
+ 
+           case let (.qrCode(code1), .qrCode(code2)): 
+                // lo que devuelve return no estaba
+                return code1 == code2 
+           default:                
+                return false        
+        }     
+    } 
+} 
+
+print(CodigoBarras.qrCode(11) == CodigoBarras.qrCode(11)) // true
+print(CodigoBarras.upc(1234, 1234) == CodigoBarras.upc(2222, 1111)) // false
+
+// en este ejercicio debemos definir una funcion == para que nuestra enumeracion se adeque al protocolo Equatable
+// la funcion == debe ser estática y además tenemos que tener en cuenta como en el enunciado nos imponen un switch con
+// un codigo 1, c1, y otro dos c2, que tenemos que incluir en la definicion de la funcion 
+
+// de este ejercicio también podemos sacar el que podemos definir nombres locales para los nombres de las variables que estamos utilizando
+// dentro de la funcion, como es el caso de codeA1, codeA2... Para facilitar la ejecución. También podriamos haber hecho c1.upc.0 y c1.upc.1
+
+
+// ejercicio 18
+
+// debemos corregir un codigo en swift quitando y sustituyendo codigo para que el compilador no lance error y la salida por pantalla sea la indicada.
+// en el metodo saluda de la clase Foo no podemos escribir la cadena "soy base".
+
+class Base {     
+    func saluda() -> String {         
+        return "soy base"     
+    } 
+} 
+ 
+class Foo: Base {     
+    override func saluda() -> String {        
+        return super.saluda() + " soy foo"     
+    } 
+} 
+ 
+// Las siguientes líneas no debes cambiarlas 
+ 
+var arr = [Foo(), Base()]  
+
+for elem in arr {    
+    print(elem.saluda()) 
+} 
+// Imprime  
+//    "soy base soy foo"  
+//    "soy base"
+
+// este ejercicio, en un principio, la que es clase Base nos lo dan como protocolo, y la resolución de este ejercicio se basa en:
+// Base tiene que tener su implementación de saluda para poder devolver soy base, puesto que no lo podemos introducir en Foo.
+// Al ser un protocolo inicialmente esta, no puede tener definiciones de funciones, por lo que cambios de protocolo a clase para que
+// de este modo, Foo pueda heredar de clase.
+// De esta misma manera debemos hacer un override de saluda por que ya tenemos la definición en Base, pero como queremos que salga soy base
+// llamamos al metodo Base mediante super, y a eso añadimos "soy foo".
+
+// ejercicio 19
+
+// dado el siguiente codigo en swift debemos completar un bucle para que se imprima lo indicado
+protocol P {     
+    func saluda() -> String 
+} 
+ 
+class A2: P {     
+    func saluda() -> String {         
+        return "Soy de la clase A"     
+    }     
+    
+    func foo() -> Int {         
+        return 0     
+    } 
+} 
+ 
+class B2: P {     
+    func saluda() -> String {         
+        return "Soy de la clase B"     
+    }    
+
+    func bar() -> Int {         
+        return 100     
+    } 
+} 
+ 
+let instancias: [P] = [A2(), B2()] 
+ 
+for x in instancias {     // Completa el código 
+    if let claseA = x as? A2 {
+        print ("\(claseA.saluda())\n\(claseA.foo())")
+    }
+    else if let claseB = x as? B2 {
+        print ("\(claseB.saluda())\n\(claseB.bar())")
+    }
+    
+} // Imprime:  // Soy de la clase A // 0 // Hola soy de la clase B // 100
+
+// el objetivo de este ejercicio es ser capaz de hacer el downcasting a cada objeto
+// dentro del array [P] que tenemos. El ejercicio nos plantea un array del tipo del Protocolo
+// P que contiene diversas clases que se adaptan a este procolo, pero cada una de estas tiene 
+// una implementación extra de una funcion. Para poder ejecutar cada uno de los dos objetos
+// dentro de este array de protocolos tenemos que hacer el downcasting, o intentar downcastear 
+// con un operador de casteo. en el caso de lograrlo imprimimos lo suyo, sino, probamos el otro.
+
+
+// ejercicio 20
+
+// definir una extension para el tipo array solo cuando sus elementos sean numeros
+// que implemente un metodo que sume todos sus elementos
+
+
+extension Array where Element: Numeric {
+    func sum() -> Element {
+        return reduce(0, +)
+    }
+}
+
+
+let a12 = [Int](0...5) 
+print(a12.sum())
+
+let b12 : [String] = ["h", "d", "e"]  
+//print(b.sum())  // Error 
+
+// la cosa de este ejercicio es saber como van las extensiones y que a una extension le puedo definir
+// parametros como por ejemplo Array where Element: Numeric así nos aseguramos del que tenga que ser int
+// y seguimos la sugerencia del enunciado para utilizar el protocolo Numeric definido en swift. 
+
