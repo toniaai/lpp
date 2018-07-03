@@ -214,22 +214,20 @@ print(aplica([9, 8, 3], [paraPares, paraImpares]))
 // rellena los huecos de la funcion componer para que el ejemplo imprima:
 // hgf(x)=2x^2+5 para x=5.0 es 55.0 
 
-func componer(funciones:______________________) -> ___________________ {
+
+func componer(funciones: [(Double) -> Double]) -> Double {
+
     func compuesta(_ x: Double) -> Double {
-        return funciones.reduce(x){$1($0)}     
-    }   
-    _______________________ 
-} 
+        return funciones.reduce(x){$1($0)}
+    }
+ 
+}
 
 //Ejemplo: 
-func f(_ x: Double) -> Double {return x*x} 
-func g(_ x: Double) -> Double {return 2*x} 
-func h(_ x: Double) -> Double {return x+5} 
-let hgf = componer(funciones: [f,g,h]) 
-print("hgf(x)=2x^2+5 para x=5.0 es \(hgf(5.0))") 
+func f1(_ x: Double) -> Double {return x*x} 
+func g1(_ x: Double) -> Double {return 2.0*x} 
+func h1(_ x: Double) -> Double {return x+5.0} 
+let hgf = componer(funciones: [f1,g1,h1]) 
+print("hgf(x)=2x^2+5 para x=5.0 es \(hgf(5.0))")
 // Imprime: 
 // hgf(x)=2x^2+5 para x=5.0 es 55.0 
-
-
-
-
