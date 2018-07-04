@@ -1,0 +1,12 @@
+#lang r6rs
+(import (rnrs)
+        (schemeunit))
+
+;; Ejercicios parcial 1
+
+;; Funcion binnario-a-decimal b3 b2 b1 b0
+(define (binario-a-decimal b3 b2 b1 b0)
+  (+ (* b3 (extp 2 3))
+     (* b2 (expt 2 2))
+     (* b1 (expt 2 1))
+     (* b0 (expt 2 0))))
