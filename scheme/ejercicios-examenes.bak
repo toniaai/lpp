@@ -1,0 +1,90 @@
+#lang r6rs
+(import (rnrs)
+        (schemeunit))
+(define (dato-arbol arbol)
+  (car arbol))
+
+(define (hijos-arbol arbol)
+  (cdr arbol))
+
+(define (hoja? dato)
+   (not (list? dato)))
+
+(define (construye-arbol dato lista-arboles)
+  (cons dato lista-arboles))
+
+
+;;
+;; Barrera de abstracción arbol binario
+;;
+
+(define (dato-arbolb arbol)
+   (car arbol))
+   
+(define (hijo-izq-arbolb arbol)
+   (cadr arbol))
+
+(define (hijo-der-arbolb arbol)
+   (caddr arbol))
+
+(define (hoja-arbolb? arbol)
+  (and (vacio-arbolb? (hijo-izq-arbolb arbol))
+       (vacio-arbolb? (hijo-der-arbolb arbol))))
+   
+(define (vacio-arbolb? x)
+   (null? x))
+
+(define arbolb-vacio '())
+
+;; EJERCICIOS EXAMENES 2014 2015
+
+;; Dada la función:
+
+(define (f x)
+  (lambda (y)
+    (* x y)))
+
+;; Escribe una expresión de scheme correcta en la que se invoque a f
+;; y devuelva 12
+
+((f 3) 4)
+
+;; Triangulo n.
+
+(define (linea-triangulo n)
+  (if (= n 0)
+      '()
+      (cons '* (linea-triangulo (- n 1)))))
+
+(define (triangulo n)
+  (if (= n 0)
+      '()
+      (cons (linea-triangulo n) (triangulo (- n 1)))))
+
+;; Dada una lista con al menos dos numeros escribe una funcion recursiva
+;; que devuelva la pareja de numeros consecutivos cuya suma es la mayor de todas
+
+(define (suma-pareja pareja)
+  (+ (car pareja) (cdr pareja)))
+
+(define (mayor-pareja lista)
+  (cond
+    ((null? (cdr lista)) (cons (car lista) 0))
+    ((> (suma-pareja (cons (car lista) (cadr lista))) (suma-pareja (mayor-pareja (cdr lista)))) (cons (car lista) (cadr lista)))
+    (else (mayor-pareja (cdr lista)))))
+
+
+;; Escribe la funcion expande lista-parejas utilizando funciones de orden superior.
+;; la funcion recibe una lista de parejas que contiene un dato y un numero
+;; y devuelve una lista donde se han expandido las parejas, repitiendo tantos elementos
+;; como el numero que indica cada pareja
+
+(define (expande-pareja pareja)
+  (if (= n 0)
+      '()
+      (cons (car pareja) (expanade-pareja (cons (car pareja) (- (cdr pareja) 1))))))
+
+(define (expande lista-parejas)
+  (map (lambda (x)
+         (expande-pareja x)) lista-parejas))
+
