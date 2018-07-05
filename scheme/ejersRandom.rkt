@@ -167,5 +167,36 @@
               (map (lambda (x y)
                      (diff-arbol-fos x y)) (hijos-arbol arbol1) (hijos-arbol arbol2))))
 
+;; funcion que suma solo los numeros pares de un arbol
+(define (suma-pares-arbol arbol)
+  (+ (if (even? (dato-arbol arbol))
+         (dato-arbol arbol)
+         0)
+     (suma-pares-bosque (hijos-arbol arbol))))
 
+(define (suma-pares-bosque bosque)
+  (if (null? bosque)
+      0
+      (+ (suma-pares-arbol (car bosque))
+         (suma-pares-bosque (cdr bosque)))))
+
+(define (suma-pares-arbol-fos arbol)
+  (fold-right (lambda (x y)
+                (if (even? x)
+                    (+ x y)
+                    y)) (if (even? (dato-arbol arbol))
+                            (dato-arbol arbol)
+                            0) (map (lambda (x)
+                                      (suma-pares-arbol-fos x)) (hijos-arbol arbol))))
+
+(define (suma-pares-arbol-fos1 arbol)
+  (+ (if (even? (dato-arbol arbol))
+         (dato-arbol arbol)
+         0)
+     (fold-right (lambda (x y)
+                   (if (even? x)
+                       (+ x y)
+                       y)) 0 (map (lambda (x)
+                                    (suma-pares-arbol-fos1 x)) (hijos-arbol arbol)))))
+                                
                     
