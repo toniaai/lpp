@@ -31,7 +31,8 @@ let hoja2 = Arbol<String>.hoja("tal")
 let arbolString = Arbol<String>.nodo("hola", [hoja1, hoja2])
 print(arbolString)
 
-
+let arbolString1: Arbol = .nodo("hola", [.hoja("que"), .hoja("tal")])
+print(arbolString1)
 
 
 // ejercicio 4
@@ -47,12 +48,12 @@ func esHoja<T>(arbol: Arbol<T>) -> Bool {
 
 print(esHoja(arbol: hoja1))         // true
 print(esHoja(arbol: arbolString))   // false
-
+print("Ejercicio 5: ")
 // ejercicio 5
 // indica que muestra por pantalla la funcion print
 let posiciones = [(2,1), (3,4), (2,4), (8,4), (4,3)] 
 
-print(posiciones.filter{$0.0 % $0.1 == 0}.map{($0.1, $0.0)}.reduce(0){$0 + $1.0}) 
+print(posiciones.filter{$0.0 % $0.1 == 0}.map{($0.1, $0.0)}.reduce(0){$0 + $1.1}) 
 
 print(posiciones.filter{$0.0 % $0.1 == 0}) // [(2, 1), (8, 4)]
 // ahora el map aplicaria .map({$0.1, $0.0}) => [(1, 2), (4, 8)]
