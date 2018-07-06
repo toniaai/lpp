@@ -78,7 +78,7 @@
 ;; funcino que recibe una lista como la obtenida en el ejercicio anterior y devuelve
 ;; el valor mas bajo encontrado para cada coordenada
 
-(define (coords-min poli)
+(define (coords-min1 poli)
   (cond
     ((null? (cdr poli)) (car poli))
     ((and (< (car (car poli)) (car (coords-min (cdr poli))))
@@ -92,4 +92,22 @@
     (else (coords-min (cdr poli)))))
 
 ;; (coords-min (construye-poli '(3 7 5 9) '(-2 -6 4 6)))
+
+(define (min-x poli)
+  (cond
+    ((null? (cdr poli)) (car (car poli)))
+    ((< (car (car poli)) (min-x (cdr poli))) (car (car poli)))
+    (else (min-x (cdr poli)))))
+
+(define (min-y poli)
+  (cond
+    ((null? (cdr poli)) (cdr (car poli)))
+    ((< (cdr (car poli)) (min-y (cdr poli))) (cdr (car poli)))
+    (else (min-y (cdr poli)))))
+
+(define (coords-min poli)
+  (cons (min-x poli) (min-y poli)))
+
+(define poli (construye-poli '(3 7 5 9) '(-2 -6 4 6)))
+
 
